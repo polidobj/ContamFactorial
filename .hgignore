@@ -1,0 +1,8 @@
+syntax: glob
+*.suo
+glob:ContamFactorial Setup/Debug
+glob:ContamFactorial Setup/Release
+glob:obj
+glob:bin
+glob:Other Files
+glob:testcase
