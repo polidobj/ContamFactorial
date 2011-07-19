@@ -11,69 +11,69 @@ Public Class clsFactorial
 
   Public Function ReadProjectFile(ByVal ProjectFileName As String) As Boolean
 
-	Dim intFilenumber As Integer = FreeFile()
-	Dim CurrentPiece As String
+  Dim intFilenumber As Integer = FreeFile()
+  Dim CurrentPiece As String
 
-	cProjectFilename = ProjectFileName
-	While True
-	  Try
-		FileOpen(intFilenumber, cProjectFilename, OpenMode.Input, OpenAccess.Read)
-		Exit While
-	  Catch When Err.Number = 75
-		If MessageBox.Show("Unable to open the project file. Close the file and click retry or click cancel to cancel the project read.", "Unable to open file", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error) = DialogResult.Cancel Then
-		  Return False
-		End If
-	  End Try
-	End While
-	'TODO: verify project file version
-	While Not EOF(intFilenumber)
-	  Me.cProjectLines.Add(LineInput(intFilenumber))
-	End While
-	FileClose(intFilenumber)
-	Return True
+  cProjectFilename = ProjectFileName
+  While True
+    Try
+    FileOpen(intFilenumber, cProjectFilename, OpenMode.Input, OpenAccess.Read)
+    Exit While
+    Catch When Err.Number = 75
+    If MessageBox.Show("Unable to open the project file. Close the file and click retry or click cancel to cancel the project read.", "Unable to open file", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error) = DialogResult.Cancel Then
+      Return False
+    End If
+    End Try
+  End While
+  'TODO: verify project file version
+  While Not EOF(intFilenumber)
+    Me.cProjectLines.Add(LineInput(intFilenumber))
+  End While
+  FileClose(intFilenumber)
+  Return True
 
   End Function
 
   Public Function ReadValuesFile(ByVal ValuesFileName As String) As Boolean
 
-	Dim intFilenumber As Integer = FreeFile()
-	Dim Reader As New clsStringParse()
-	Dim intSetLoop, intVarLoop, intStateLoop As Integer
-	Dim NumberOfSets As Integer
-	Dim NumberOfVariables As Integer
-	Dim ASetOfChanges As Values.ASetofChanges
-	Dim aVariable As ArrayList
+  Dim intFilenumber As Integer = FreeFile()
+  Dim Reader As New clsStringParse()
+  Dim intSetLoop, intVarLoop, intStateLoop As Integer
+  Dim NumberOfSets As Integer
+  Dim NumberOfVariables As Integer
+  Dim ASetOfChanges As Values.ASetofChanges
+  Dim aVariable As ArrayList
 
-	While True
-	  Try
-		FileOpen(intFilenumber, ValuesFileName, OpenMode.Input, OpenAccess.Read)
-		Exit While
-	  Catch When Err.Number = 75
-		If MessageBox.Show("Unable to open the values file. Close the file and click retry or click cancel to cancel the project read.", "Unable to open file", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error) = DialogResult.Cancel Then
-		  Return False
-		End If
-	  End Try
-	End While
-	Me.cMaxStates = 0
-	NumberOfSets = Reader.ReadInteger(intFilenumber, 0)
-	Me.cSetsOfChanges = New Values.SetsOfChanges()
-	For intSetLoop = 1 To NumberOfSets
-	  NumberOfVariables = Reader.ReadInteger(intFilenumber, 0)
-	  ASetOfChanges = New Values.ASetofChanges()
-	  ASetOfChanges.NumberOfStates = Reader.ReadInteger(intFilenumber, 0)
-	  ASetOfChanges.SetName = Reader.ReadString(intFilenumber, 0)
-	  For intVarLoop = 1 To NumberOfVariables
-		aVariable = New ArrayList()
-		If ASetOfChanges.NumberOfStates > Me.cMaxStates Then Me.cMaxStates = ASetOfChanges.NumberOfStates
-		For intStateLoop = 1 To ASetOfChanges.NumberOfStates
-		  aVariable.Add(Reader.ReadString(intFilenumber, 0))
-		Next
-		ASetOfChanges.Changes.Add(aVariable)
-	  Next
-	  Me.cSetsOfChanges.AddSet(ASetOfChanges)
-	Next
-	FileClose(intFilenumber)
-	Return True
+  While True
+    Try
+    FileOpen(intFilenumber, ValuesFileName, OpenMode.Input, OpenAccess.Read)
+    Exit While
+    Catch When Err.Number = 75
+    If MessageBox.Show("Unable to open the values file. Close the file and click retry or click cancel to cancel the project read.", "Unable to open file", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error) = DialogResult.Cancel Then
+      Return False
+    End If
+    End Try
+  End While
+  Me.cMaxStates = 0
+  NumberOfSets = Reader.ReadInteger(intFilenumber, 0)
+  Me.cSetsOfChanges = New Values.SetsOfChanges()
+  For intSetLoop = 1 To NumberOfSets
+    NumberOfVariables = Reader.ReadInteger(intFilenumber, 0)
+    ASetOfChanges = New Values.ASetofChanges()
+    ASetOfChanges.NumberOfStates = Reader.ReadInteger(intFilenumber, 0)
+    ASetOfChanges.SetName = Reader.ReadString(intFilenumber, 0)
+    For intVarLoop = 1 To NumberOfVariables
+    aVariable = New ArrayList()
+    If ASetOfChanges.NumberOfStates > Me.cMaxStates Then Me.cMaxStates = ASetOfChanges.NumberOfStates
+    For intStateLoop = 1 To ASetOfChanges.NumberOfStates
+      aVariable.Add(Reader.ReadString(intFilenumber, 0))
+    Next
+    ASetOfChanges.Changes.Add(aVariable)
+    Next
+    Me.cSetsOfChanges.AddSet(ASetOfChanges)
+  Next
+  FileClose(intFilenumber)
+  Return True
 
   End Function
 
