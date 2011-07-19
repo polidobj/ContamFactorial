@@ -115,7 +115,7 @@ Public Class clsFactorial
             CurrentFileNumber = FreeFile()
             CurrentPermutation = permutations(intFileLoop)
             FileOpen(CurrentFileNumber, System.IO.Path.GetFileNameWithoutExtension(Me.cProjectFilename) + "_" + CurrentPermutation.StateString + ".prj", OpenMode.Output, OpenAccess.Write)
-            PrintLine(intBatchFilenumber, "ContamX2 " & System.IO.Path.GetFileNameWithoutExtension(Me.cProjectFilename) + "_" + CurrentPermutation.StateString + ".prj")
+            PrintLine(intBatchFilenumber, "ContamX3 " & System.IO.Path.GetFileNameWithoutExtension(Me.cProjectFilename) + "_" + CurrentPermutation.StateString + ".prj")
             For intLinesLoop = 0 To Me.cProjectLines.Count - 1
                 CurrentPiece = Me.cProjectLines(intLinesLoop)
                 If intLinesLoop = 1 Then
@@ -171,7 +171,7 @@ Public Class clsFactorial
         Dim ASetOfChanges As Values.ASetofChanges
         Dim ResultArray As New List(Of Integer)()
 
-        For intSetLoop = 1 To Me.cSetsOfChanges.NumberOfSets
+        For intSetLoop = 0 To Me.cSetsOfChanges.NumberOfSets - 1
             ASetOfChanges = Me.cSetsOfChanges.Item(intSetLoop)
             ResultArray.Add(ASetOfChanges.NumberOfStates)
         Next

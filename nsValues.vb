@@ -15,7 +15,7 @@ Namespace Values
     Dim ASet As ASetofChanges
     Dim intloop As Integer
 
-    For intloop = 1 To Me.cSetsOfChanges.Count
+    For intloop = 0 To Me.cSetsOfChanges.Count - 1
     ASet = Me.cSetsOfChanges.Item(intloop)
     If ASet.SetName = NameOfSet Then
       Return intloop
