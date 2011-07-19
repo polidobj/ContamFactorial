@@ -1,6 +1,9 @@
+Imports System.Collections.Generic
+Imports ContamFactorial.clsPermutation
+
 Public Class clsFactorial
 
-  Dim cProjectLines As New ArrayList()
+  Dim cProjectLines As New List(Of String)()
   'Public cNumberOfVariables As Integer
   Dim cProjectFilename As String
   'Public cStates As ArrayList
@@ -12,7 +15,6 @@ Public Class clsFactorial
   Public Function ReadProjectFile(ByVal ProjectFileName As String) As Boolean
 
   Dim intFilenumber As Integer = FreeFile()
-  Dim CurrentPiece As String
 
   cProjectFilename = ProjectFileName
   While True
@@ -42,7 +44,7 @@ Public Class clsFactorial
   Dim NumberOfSets As Integer
   Dim NumberOfVariables As Integer
   Dim ASetOfChanges As Values.ASetofChanges
-  Dim aVariable As ArrayList
+  Dim aVariable As List(Of String)
 
   While True
     Try
@@ -63,8 +65,10 @@ Public Class clsFactorial
     ASetOfChanges.NumberOfStates = Reader.ReadInteger(intFilenumber, 0)
     ASetOfChanges.SetName = Reader.ReadString(intFilenumber, 0)
     For intVarLoop = 1 To NumberOfVariables
-    aVariable = New ArrayList()
-    If ASetOfChanges.NumberOfStates > Me.cMaxStates Then Me.cMaxStates = ASetOfChanges.NumberOfStates
+    aVariable = New List(Of String)()
+    If ASetOfChanges.NumberOfStates > Me.cMaxStates Then
+      Me.cMaxStates = ASetOfChanges.NumberOfStates
+    End If
     For intStateLoop = 1 To ASetOfChanges.NumberOfStates
       aVariable.Add(Reader.ReadString(intFilenumber, 0))
     Next
@@ -86,16 +90,16 @@ Public Class clsFactorial
         Dim CurrentFileNumber As Integer
         Dim CurrentPiece As String
         Dim clsPermutations As New clsPermutation()
-        Dim permutations As ArrayList
+        Dim permutations As List(Of aPermutation)
         Dim CurrentPermutation As clsPermutation.aPermutation
         Dim intBatchFilenumber As Integer = FreeFile()
-        Dim StatesCountArray As ArrayList
+        Dim StatesCountArray As List(Of Integer)
         Dim SetInfo As String
         Dim SetName As String
         Dim ChangeIndex As Integer
         Dim StringParser As New clsStringParse()
         Dim ASetOfChanges As Values.ASetofChanges
-        Dim AChange As ArrayList
+        Dim AChange As List(Of String)
         Dim Setindex As Integer
 
         StatesCountArray = Me.CreateStatesArray()
@@ -109,11 +113,11 @@ Public Class clsFactorial
             frmProcessing.Refresh()
             Application.DoEvents()
             CurrentFileNumber = FreeFile()
-            CurrentPermutation = CType(permutations(intFileLoop), clsPermutation.aPermutation)
+            CurrentPermutation = permutations(intFileLoop)
             FileOpen(CurrentFileNumber, System.IO.Path.GetFileNameWithoutExtension(Me.cProjectFilename) + "_" + CurrentPermutation.StateString + ".prj", OpenMode.Output, OpenAccess.Write)
             PrintLine(intBatchFilenumber, "ContamX2 " & System.IO.Path.GetFileNameWithoutExtension(Me.cProjectFilename) + "_" + CurrentPermutation.StateString + ".prj")
             For intLinesLoop = 0 To Me.cProjectLines.Count - 1
-                CurrentPiece = CType(Me.cProjectLines(intLinesLoop), String)
+                CurrentPiece = Me.cProjectLines(intLinesLoop)
                 If intLinesLoop = 1 Then
                     CurrentPiece = WriteDescription(CurrentPiece, CurrentPermutation.StateString)
                 End If
@@ -131,10 +135,10 @@ Public Class clsFactorial
                         AChange = ASetOfChanges.Changes(ChangeIndex - 1)
                         If (CurrentPiece.Substring(0, CurrentPiece.IndexOf("$", 0)).Length > 0) Then
                             CurrentPiece = CurrentPiece.Substring(0, CurrentPiece.IndexOf("$", 0)) & " " & _
-                                CType(AChange.Item(CInt(CurrentPermutation.states(Setindex - 1))), String) & " " & _
+                                AChange.Item(CurrentPermutation.states(Setindex - 1)) & " " & _
                                 CurrentPiece.Substring(CurrentPiece.IndexOf(")", 0) + 1)
                         Else
-                            CurrentPiece = CType(AChange.Item(CInt(CurrentPermutation.states(Setindex - 1))), String) & " " & _
+                            CurrentPiece = AChange.Item(CurrentPermutation.states(Setindex - 1)) & " " & _
                                 CurrentPiece.Substring(CurrentPiece.IndexOf(")", 0) + 1)
                         End If
                     Else
@@ -161,11 +165,11 @@ Public Class clsFactorial
 
     End Function
 
-    Private Function CreateStatesArray() As ArrayList
+    Private Function CreateStatesArray() As List(Of Integer)
 
         Dim intSetLoop As Integer
         Dim ASetOfChanges As Values.ASetofChanges
-        Dim ResultArray As New ArrayList()
+        Dim ResultArray As New List(Of Integer)()
 
         For intSetLoop = 1 To Me.cSetsOfChanges.NumberOfSets
             ASetOfChanges = Me.cSetsOfChanges.Item(intSetLoop)

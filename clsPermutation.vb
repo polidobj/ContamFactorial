@@ -1,15 +1,17 @@
+Imports System.Collections.Generic
+
 Public Class clsPermutation
 
-  Dim cStates As ArrayList
-    Dim cResultArray As ArrayList
+  Dim cStates As List(Of Integer)
+    Dim cResultArray As List(Of aPermutation)
     Dim CurrentPerm As aPermutation
 
     Public Class aPermutation
 
-        Public states As ArrayList
+        Public states As List(Of String)
 
         Public Sub New()
-            states = New ArrayList()
+            states = New List(Of String)()
         End Sub
 
         Public Function StateString() As String
@@ -18,7 +20,7 @@ Public Class clsPermutation
 
             StateString = ""
             For i = 0 To states.Count - 1
-                StateString &= CType(states(i), String).ToString & "_"
+                StateString &= states(i) & "_"
             Next
             StateString = StateString.Substring(0, StateString.Length - 1)
 
@@ -30,17 +32,17 @@ Public Class clsPermutation
             Copy = New aPermutation()
 
             For i = 0 To states.Count - 1
-                state = CType(states(i), String)
+                state = states(i)
                 Copy.states.Add(state)
             Next
         End Function
     End Class
 
-    Public Function CreatePermutations(ByVal States As ArrayList) As ArrayList
+    Public Function CreatePermutations(ByVal States As List(Of Integer)) As List(Of aPermutation)
 
         Dim intloop As Integer
 
-        cResultArray = New ArrayList()
+        cResultArray = New List(Of aPermutation)()
         cStates = States
         For intloop = 0 To States(0) - 1
             CurrentPerm = New aPermutation()

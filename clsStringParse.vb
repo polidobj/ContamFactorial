@@ -98,7 +98,7 @@ Public Class clsStringParse
     Case "!"
       strJunk = NextLine(intFileNumber, 80)
     Case "*"
-      Exit Function
+      Return Nothing
     Case Else
       strWord = strWord & strCharacter
       bolDone = True
@@ -181,7 +181,6 @@ Public Class clsStringParse
   ' return - the integer representation of time
   Public Function StringTimeToIntegerTime(ByVal strTime As String) As Integer
 
-  Dim strTemp As String
   Dim lngHours As Integer
   Dim lngMinutes As Integer
   Dim lngSeconds As Integer
