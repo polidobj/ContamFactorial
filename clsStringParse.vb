@@ -269,12 +269,11 @@ Public Class clsStringParse
   'return - the field extracted from the input string
   Public Function GetItemFromTabLine(ByVal strInputString As String, ByVal intItemNumber As Integer) As String
 
-  Dim intLoop As Integer
   Dim strTempString As String
   Dim intStringPosition As Integer
 
   strTempString = Trim(strInputString)
-  For intLoop = 1 To intItemNumber - 1
+  For intLoop As Integer = 1 To intItemNumber - 1
     intStringPosition = InStr(strTempString, Chr(9))
     strTempString = Trim(Mid(strTempString, intStringPosition + 1))
   Next intLoop
@@ -293,12 +292,11 @@ Public Class clsStringParse
   'return - the field extracted from the input string
   Public Function GetItemFromSpaceLine(ByVal strInputString As String, ByVal intItemNumber As Integer) As String
 
-  Dim intLoop As Integer
   Dim strTempString As String
   Dim intStringPosition As Integer
 
   strTempString = Trim(strInputString)
-  For intLoop = 1 To intItemNumber - 1
+  For intLoop As Integer = 1 To intItemNumber - 1
     intStringPosition = InStr(strTempString, " ")
     strTempString = Trim(Mid(strTempString, intStringPosition + 1))
   Next intLoop

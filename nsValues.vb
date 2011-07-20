@@ -2,7 +2,6 @@ Imports System.Collections.Generic
 
 Namespace Values
 
-
   Public Class SetsOfChanges
 
   Private cSetsOfChanges As New List(Of ASetofChanges)()
@@ -13,9 +12,8 @@ Namespace Values
   Public Function SetIndex(ByVal NameOfSet As String) As Integer
 
     Dim ASet As ASetofChanges
-    Dim intloop As Integer
 
-    For intloop = 0 To Me.cSetsOfChanges.Count - 1
+    For intloop As Integer = 0 To Me.cSetsOfChanges.Count - 1
     ASet = Me.cSetsOfChanges.Item(intloop)
     If ASet.SetName = NameOfSet Then
       Return intloop
@@ -39,6 +37,7 @@ Namespace Values
   Public SetName As String
   Public NumberOfStates As Integer
   Public Changes As New List(Of List(Of String))()
+  Public StateNames As New List(Of String)()
 
   End Class
 
