@@ -1,0 +1,150 @@
+ContamW 3.0  0
+contaminant filter test #1
+! rows cols ud uf    T   uT     N     wH  u  Ao    a
+    58   66  0  0 293.150 2    0.00 10.00 0 0.600 0.280
+! Ta       Pb      Ws    Wd    rh  day u..
+293.150 101325.0  0.000   0.0 0.500 2 2 0 0 1 ! steady simulation
+293.150 101325.0  0.000   0.0 0.500 2 2 0 0 1 ! wind pressure test
+null ! no weather file
+null ! no contaminant file
+null ! no continuous values file
+null ! no discrete values file
+null ! no WPC file
+null ! no EWC file
+WPC description
+!  Xref    Yref    Zref   angle u
+   0.000   0.000   0.000   0.00 0
+! epsP epsS  tShift  dStart dEnd wp mf
+  0.01 0.01 00:00:00   1/1   1/1  0  0
+! latd  longtd   tznr  altd  Tgrnd u..
+ 40.00  -90.00  -6.00     0 283.15 2 0
+!sim_af afcalc afmaxi afrcnvg afacnvg afrelax uac Pbldg uPb
+     0      1     30  1e-005  1e-006    0.75   0 50.00   0
+!   slae rs aflmaxi aflcnvg aflinit Tadj
+      0   1    100  1e-006      1    0
+!sim_mf slae rs maxi   relcnvg   abscnvg relax gamma ucc
+    2             30 1.00e-004 1.00e-012 1.250         0 ! (cyclic)
+          2   1  100 1.00e-006 1.00e-015 1.100 1.000   0 ! (non-trace)
+          2   1  100 1.00e-006 1.00e-015 1.100 1.000   0 ! (trace)
+!sim_sts sim_1dz sim_1dd celldx sim_vjt udx
+     0       1       0    0.100     0    0
+!tsdens relax tsmaxi
+     0   0.75    20
+!date_st time_st  date_0 time_0   date_1 time_1    t_step   t_list   t_scrn
+  Jan01 00:00:00  Jan01 00:00:00  Jan01 24:00:00  00:05:00 00:15:00 01:00:00
+!restart  date  time
+      0  Jan01 00:00:00
+!list doDlg pfsave zfsave zcsave
+   0     1      1      1      1
+!vol ach -bw cbw exp -bw age -bw
+  0   0   0   0   0   0   0   0 
+!...
+ 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+2 ! rvals:
+1.2041 9.8055 
+!valZ valD valC
+   0    0    0
+!ctype conv var zref imax dtcmo
+   0 0.010000    0    0 1000    1
+-999
+2 ! contaminants:
+   1 2
+2 ! species:
+! # s t   molwt    mdiam       edens       decay       Dm          CCdef        Cp    u...  name
+  1 1 0  30.0000 0.0000e+000 0.0000e+000 0.0000e+000 2.0000e-005 0.0000e+000 1000.000 1 0 0 0 0 C1
+
+  2 1 0  30.0000 0.0000e+000 0.0000e+000 0.0000e+000 2.0000e-005 0.0000e+000 1000.000 1 0 0 0 0 C2
+
+-999
+1 ! levels plus icon data:
+! #  refHt   delHt  ni  u  name
+  1   0.000   3.000 11 0 0 lev0
+!icn col row  #
+  14  19  23   0
+  19  31  23   0
+  15  43  23   0
+  28  19  29   1
+  28  31  29   2
+  28  43  29   3
+   5  20  34   1
+   5  32  34   2
+  17  19  35   0
+  21  31  35   0
+  16  43  35   0
+-999
+0 ! day-schedules:
+-999
+0 ! week-schedules:
+-999
+0 ! wind pressure profiles:
+-999
+0 ! kinetic reactions:
+-999
+3 ! filter elements:
+1 cef 1 0.1 100 0 0 FILTER-C1
+Filter out C1 only.
+  1
+  C1 0.9995
+2 cef 1 0.1 100 0 0 Filter2
+Filter out C1 and C2.
+  2
+  C1 $(filter 1)
+  C2 $(filter 2)
+3 cef 1 0.1 100 0 0 filt-C2
+filter C2 only
+  1
+  C2 0.5
+-999
+1 ! filters:
+  1   2   1
+   0 0
+-999
+0 ! source/sink elements:
+-999
+2 ! flow elements:
+1 28 fan_cvf fan-0.5ach
+
+ 0.00833333 4
+2 23 plr_orfc plr-0.01
+
+ 8.12433e-006 0.00848528 0.5 0.01 0.112838 0.6 100 0 0
+-999
+0 ! duct elements:
+-999
+0 ! control super elements:
+-999
+0 ! control nodes:
+-999
+0 ! simple AHS:
+-999
+2 ! zones:
+! Z#  f  s#  c#  k#  l#  relHt    Vol  T0  P0  name  clr u..  axs  1-D data:
+   1  1   0   0   0   1   0.000    60 293.15 0 N1 -1 0 2 0 0 0 0
+   2  3   0   0   0   1   0.000    60 293.15 0 N2 -1 0 2 0 0 0 0
+-999
+4 ! initial zone concentrations:
+! Z#         C1         C2
+   1 1.036e-004 1.036e-004
+   2 0.000e+000 0.000e+000
+-999
+3 ! flow paths:
+! P#    f  n#  m#  e#  f#  w#  a#  s#  c#  l#    X       Y      relHt  mult wPset wPmod wazm Fahs Xmax Xmin icn dir u..
+   1    0  -1   1   $(element 1)   0   0   0   0   0   1   0.000   0.000   0.000 1 -1 0 0 -1 0 0  28  2 0 0 0 0 0
+   2    0   1   2   $(element 1)   1   0   0   0   0   1   0.000   0.000   0.000 1 0 0 -1 -1 0 0  28  2 0 0 0 0 0
+   3    0   2  -1   1   0   0   0   0   0   1   0.000   0.000   0.000 1 -1 0 0 -1 0 0  28  2 0 0 0 0 0
+-999
+0 ! duct junctions:
+-999
+0 ! initial junction concentrations:
+-999
+0 ! duct segments:
+-999
+0 ! source/sinks:
+-999
+0 ! occupancy schedules:
+-999
+0 ! exposures:
+-999
+0 ! annotations:
+-999
+* end project file.

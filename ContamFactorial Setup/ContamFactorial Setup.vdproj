@@ -15,26 +15,32 @@
     {
         "Entry"
         {
-        "MsmKey" = "8:_0562BB3F38C645D1A06A02C089321FBF"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_0F01069AA3AD46AF98A9D90CC39E4EA0"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_66D05C1523E944359A0FB3CD7668E734"
+        "MsmKey" = "8:_250617B6893D42B6AF8F9E46A8EB0E36"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_9DEDBB1708B5473FAA64A0C428652406"
+        "MsmKey" = "8:_5FA564FDBF494C7D8E42461F2F99D3E4"
         "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_75AD8FE1A071481480AD27F448B05190"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_0F01069AA3AD46AF98A9D90CC39E4EA0"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -62,6 +68,19 @@
             "PrerequisitesLocation" = "2:1"
             "Url" = "8:"
             "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:Microsoft.Net.Framework.3.5.SP1"
+                    {
+                    "Name" = "8:.NET Framework 3.5 SP1"
+                    "ProductCode" = "8:Microsoft.Net.Framework.3.5.SP1"
+                    }
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:Microsoft.Windows.Installer.3.1"
+                    {
+                    "Name" = "8:Windows Installer 3.1"
+                    "ProductCode" = "8:Microsoft.Windows.Installer.3.1"
+                    }
+                }
             }
         }
         "Release"
@@ -86,6 +105,19 @@
             "PrerequisitesLocation" = "2:1"
             "Url" = "8:"
             "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:Microsoft.Net.Framework.3.5.SP1"
+                    {
+                    "Name" = "8:.NET Framework 3.5 SP1"
+                    "ProductCode" = "8:Microsoft.Net.Framework.3.5.SP1"
+                    }
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:Microsoft.Windows.Installer.3.1"
+                    {
+                    "Name" = "8:Windows Installer 3.1"
+                    "ProductCode" = "8:Microsoft.Windows.Installer.3.1"
+                    }
+                }
             }
         }
     }
@@ -108,7 +140,7 @@
                 {
                 "Name" = "8:MsiNetAssemblySupport"
                 "Message" = "8:[VSDNETMSG]"
-                "FrameworkVersion" = "8:.NETFramework,Version=v4.0,Profile=Client"
+                "FrameworkVersion" = "8:.NETFramework,Version=v3.5"
                 "AllowLaterVersions" = "11:FALSE"
                 "InstallUrl" = "8:http://go.microsoft.com/fwlink/?LinkId=131000"
                 }
@@ -116,32 +148,12 @@
         }
         "File"
         {
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_0562BB3F38C645D1A06A02C089321FBF"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_250617B6893D42B6AF8F9E46A8EB0E36"
             {
-            "SourcePath" = "8:..\\values.txt"
-            "TargetName" = "8:values.txt"
-            "Tag" = "8:"
-            "Folder" = "8:_0902A3F682A041C9AEE29FDE8C378381"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_66D05C1523E944359A0FB3CD7668E734"
-            {
-            "SourcePath" = "8:..\\TESTFL1.PRJ"
+            "SourcePath" = "8:..\\Other Files\\TESTFL1.PRJ"
             "TargetName" = "8:TESTFL1.PRJ"
             "Tag" = "8:"
-            "Folder" = "8:_0902A3F682A041C9AEE29FDE8C378381"
+            "Folder" = "8:_E2B58B9FA0174B7B9DBB8CF5E2F24592"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -156,12 +168,32 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_9DEDBB1708B5473FAA64A0C428652406"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_5FA564FDBF494C7D8E42461F2F99D3E4"
             {
-            "SourcePath" = "8:..\\ContamX2.exe"
-            "TargetName" = "8:ContamX2.exe"
+            "SourcePath" = "8:..\\ContamX3.exe"
+            "TargetName" = "8:ContamX3.exe"
             "Tag" = "8:"
-            "Folder" = "8:_0902A3F682A041C9AEE29FDE8C378381"
+            "Folder" = "8:_E2B58B9FA0174B7B9DBB8CF5E2F24592"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_75AD8FE1A071481480AD27F448B05190"
+            {
+            "SourcePath" = "8:..\\Other Files\\values.txt"
+            "TargetName" = "8:values.txt"
+            "Tag" = "8:"
+            "Folder" = "8:_E2B58B9FA0174B7B9DBB8CF5E2F24592"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -255,7 +287,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:ContamFactorial"
         "ProductCode" = "8:{D3E1323E-FDEC-475E-97E9-4AE2996C58C7}"
-        "PackageCode" = "8:{43E4DD20-4A6A-47BF-81AA-26FE60236005}"
+        "PackageCode" = "8:{881CF653-2356-4FA5-AFD5-DBBA4B84874C}"
         "UpgradeCode" = "8:{289E4B08-88AF-47C5-BEAD-F186A88B62E9}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"

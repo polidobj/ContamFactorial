@@ -1,0 +1,10 @@
+2 !# of sets of changes
+!a set of changes
+2 2 filter !number of changes, number of states per change, set name
+filt-case1 filt-case2 !state names
+0.0091 0.1 ! a change
+0.54321 0.3 ! another change
+1 2 element !state names
+el-case1 el-case2
+1 2
+
