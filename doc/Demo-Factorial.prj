@@ -1,0 +1,252 @@
+ContamW 3.0  0
+Demo Factorial
+! rows cols ud uf    T   uT     N     wH  u  Ao    a
+    58   66  0  0 293.150 2    0.00 10.00 0 0.600 0.280
+! Ta       Pb      Ws    Wd    rh  day u..
+293.150 101325.0  0.000   0.0 0.000 1 2 0 0 1 ! steady simulation
+293.150 101325.0  1.000 270.0 0.000 1 2 0 0 1 ! wind pressure test
+null ! no weather file
+null ! no contaminant file
+null ! no continuous values file
+Demo-01.dvf ! discrete values file
+null ! no WPC file
+null ! no EWC file
+WPC description
+!  Xref    Yref    Zref   angle u
+   0.000   0.000   0.000   0.00 0
+! epsP epsS  tShift  dStart dEnd wp mf
+  0.01 0.01 00:00:00   1/1   1/1  0  0
+! latd  longtd   tznr  altd  Tgrnd u..
+ 40.00  -90.00  -6.00     0 283.15 2 0
+!sim_af afcalc afmaxi afrcnvg afacnvg afrelax uac Pbldg uPb
+     1      1     30  1e-005  1e-006    0.75   0 50.00   0
+!   slae rs aflmaxi aflcnvg aflinit Tadj
+      0   1    100  1e-006      1    0
+!sim_mf slae rs maxi   relcnvg   abscnvg relax gamma ucc
+    2             30 1.00e-004 1.00e-015 1.250         0 ! (cyclic)
+          0   1  100 1.00e-006 1.00e-015 1.100 1.000   0 ! (non-trace)
+          0   1  100 1.00e-006 1.00e-015 1.100 1.000   0 ! (trace)
+!sim_sts sim_1dz sim_1dd celldx sim_vjt udx
+     0       1       0    0.100     0    0
+!tsdens relax tsmaxi
+     0   0.75    20
+!date_st time_st  date_0 time_0   date_1 time_1    t_step   t_list   t_scrn
+ Jan01 00:00:00  Jan01 00:00:00  Jan01 24:00:00  00:01:00 00:01:00 01:00:00
+!restart  date  time
+      0  Jan01 00:00:00
+!list doDlg pfsave zfsave zcsave
+   0     1      1      1      1
+!vol ach -bw cbw exp -bw age -bw
+  0   0   0   0   0   0   0   0 
+!...
+ 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0
+2 ! rvals:
+1.2041 9.8055 
+!valZ valD valC
+   0    0    0
+!ctype conv var zref imax dtcmo
+   0 0.010000    0    0 1000    1
+-999
+1 ! contaminants:
+   1
+1 ! species:
+! # s t   molwt    mdiam       edens       decay       Dm          CCdef        Cp    u...  name
+  1 1 0   0.0000 1.2000e-005 1.3000e+003 0.0000e+000 2.0000e-005 0.0000e+000 1000.000 15 6 2 0 0 p12
+
+-999
+1 ! levels plus icon data:
+! #  refHt   delHt  ni  u  name
+  1   0.000   3.000 32 0 0 <1>
+!icn col row  #
+  14  13   7   0
+  15  29   7   0
+ 131  14   8   1
+  23  29   8   1
+ 185  14  12   1
+ 170  15  12   1
+ 178  16  12   1
+ 185  17  12   2
+ 170  18  12   2
+ 173  20  12   2
+  29  29  12   2
+ 179  20  13   2
+ 172  14  14   6
+ 178  16  14   6
+ 185  17  14   3
+ 170  18  14   3
+ 178  19  14   3
+ 185  20  14   4
+ 170  21  14   4
+ 178  22  14   4
+ 185  23  14   5
+ 170  24  14   5
+ 178  26  14   5
+ 133  27  14   1
+ 183  14  15   6
+   5  14  16   1
+ 184  15  16   7
+ 178  16  16   7
+ 185  17  16   8
+  23  29  16   3
+  17  13  17   0
+  16  29  17   0
+-999
+3 ! day-schedules:
+! # npts shap utyp ucnv name
+  1    2    0    1    0 0pct
+
+ 00:00:00 0
+ 24:00:00 0
+  2    2    0    1    0 15pct
+
+ 00:00:00 0.15
+ 24:00:00 0.15
+  3    3    0    1    0 Burst
+
+ 00:00:00 0
+ 08:00:01 1
+ 24:00:00 0
+-999
+3 ! week-schedules:
+! # utyp ucnv name
+  1    1    0 0pct
+
+ 1 1 1 1 1 1 1 1 1 1 1 1
+  2    1    0 15pct
+
+ 2 2 2 2 2 2 2 2 2 2 2 2
+  3    1    0 Burst
+
+ 3 3 3 3 3 3 3 3 3 3 3 3
+-999
+0 ! wind pressure profiles:
+-999
+0 ! kinetic reactions:
+-999
+1 ! filter elements:
+1 pf0 1 0.1 100 0 0 KB_MERV-6
+Kowalski Bahnfleth MERV-6. Actual data between 0.01 and 10 microns.
+ 16 6
+  1e-009 0.5
+  1.5e-009 0.5
+  3.5e-009 0.4
+  1e-008 0.278521
+  3e-008 0.177
+  8e-008 0.084419
+  1.8e-007 0.046042
+  3.3e-007 0.047433
+  6.6e-007 0.096778
+  1.3e-006 0.223221
+  2.5e-006 0.390447
+  4.4e-006 0.479631
+  7e-006 0.498233
+  9.9e-006 0.499902
+  1e-005 0.499902
+  1.3e-005 0.499902
+-999
+0 ! filters:
+-999
+4 ! source/sink elements:
+1 p12 brs Burst
+
+ 0.00188 2
+2 p12 dvr DVR
+DVR element from Hu et al.
+ 0.005 0.00875 1 1 0 0 0 0
+3 p12 dvs DVS
+
+ 0.005 1 0 0
+4 p12 ccf Gres
+
+ 1.65e-009 0 0 0
+-999
+2 ! flow elements:
+1 23 plr_leak1 DoorInt
+
+ 1.31512e-006 0.00600712 0.65 0.6 10 0.01 0 0 2 2 2 0
+2 29 fan_cmf Fan
+
+ 0.000334472 4
+-999
+0 ! duct elements:
+-999
+0 ! control super elements:
+-999
+8 ! control nodes:
+! # typ seq f n  c1  c2 name
+  1 dvf   1 0 0   0   0 <none>
+Discrete (DVF) value
+ node1
+  2 log   4 0 1   1   0 <none>
+Report input
+ 0 1 0 DVF n/a
+  3 log   5 0 1   6   0 <none>
+Report input
+ 0 1 0 Occupants Persons
+  4 mul   6 0 2   3   2 <none>
+Multiply two inputs
+
+  5 log   7 0 1   4   0 <none>
+Report input
+ 0 1 0 CRxPersons n/a
+  6 sns   2 0 0   0   0 <none>
+zone Occupancy sensor
+ 0 1 0 0 1 1 5   0.000   0.000   0.000 0 none
+  7 sns   3 0 0   0   0 <none>
+zone sensor
+ 0 1 0 0 1 1 0   0.000   0.000   0.000 0 p12
+  8 log   8 1 1   7   0 <none>
+Report input
+ 0 1.02371e+012 0 Z1 #/m^3
+-999
+0 ! simple AHS:
+-999
+1 ! zones:
+! Z#  f  s#  c#  k#  l#  relHt    Vol  T0  P0  name  clr u..  axs  1-D data:
+   1  3   0   0   0   1   0.000   100 293.15 0 Z1 -1 0 2 0 0 0 0
+-999
+1 ! initial zone concentrations:
+! Z#        p12
+   1 4.341e-005
+-999
+3 ! flow paths:
+! P#    f  n#  m#  e#  f#  w#  a#  s#  c#  l#    X       Y      relHt  mult wPset wPmod wazm Fahs Xmax Xmin icn dir u..
+   1    0  -1   1   1   0   0   0   0   0   1   0.000   0.000   3.000 1 0 0 90 0 0 0  23  5 0 0 0 4 0
+   2    0  -1   1   2   0   0   0   0   0   1   0.000   0.000   1.500 1 0 0 90 0 0 0  29  5 0 0 0 0 0
+   3    0  -1   1   1   0   0   0   0   0   1   0.000   0.000   0.000 1 0 0 90 0 0 0  23  5 0 0 0 4 0
+-999
+0 ! duct junctions:
+-999
+0 ! initial junction concentrations:
+-999
+0 ! duct segments:
+-999
+1 ! source/sinks:
+! #  z#  e#  s#  c#  mult   CC0  (X, Y, H)min  (X, Y, H)max u
+  1   1   2   0   5 33.33     0  0 0 0  0 0 0  0 0
+-999
+3 ! occupancy schedules:
+1 3 0 occSched-01
+
+ 00:00:00 1   0.000   0.000   0.000
+ 13:00:00 -1   0.000   0.000   0.000
+ 24:00:00 -1   0.000   0.000   0.000
+2 3 0 occSched-02
+
+ 00:00:00 1   0.000   0.000   0.000
+ 14:00:00 -1   0.000   0.000   0.000
+ 24:00:00 -1   0.000   0.000   0.000
+3 3 0 occSched-03
+
+ 00:00:00 1   0.000   0.000   0.000
+ 15:00:00 -1   0.000   0.000   0.000
+ 24:00:00 -1   0.000   0.000   0.000
+-999
+1 ! exposures:
+1 0 0 1 0 0 70 4 0
+
+ 1 1 1 1 1 1 1 1 1 1 1 1 ! occ. schd
+-999
+0 ! annotations:
+-999
+* end project file.

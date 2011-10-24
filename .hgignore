@@ -6,3 +6,4 @@ glob:obj
 glob:bin
 glob:Other Files
 glob:testcase
+glob:xsc-*
