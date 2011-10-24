@@ -1,0 +1,949 @@
+<html>
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=windows-1252">
+<meta name=Generator content="Microsoft Word 14 (filtered)">
+<title>Contam Factorial</title>
+<style>
+<!--
+ /* Font Definitions */
+ @font-face
+	{font-family:Tahoma;
+	panose-1:2 11 6 4 3 5 4 4 2 4;}
+ /* Style Definitions */
+ p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	margin-bottom:.0001pt;
+	font-size:12.0pt;
+	font-family:"Times New Roman","serif";}
+h1
+	{margin-top:12.0pt;
+	margin-right:0in;
+	margin-bottom:3.0pt;
+	margin-left:0in;
+	page-break-after:avoid;
+	font-size:16.0pt;
+	font-family:"Arial","sans-serif";}
+h2
+	{margin-top:12.0pt;
+	margin-right:0in;
+	margin-bottom:3.0pt;
+	margin-left:0in;
+	page-break-after:avoid;
+	font-size:14.0pt;
+	font-family:"Arial","sans-serif";
+	font-style:italic;}
+p.MsoAcetate, li.MsoAcetate, div.MsoAcetate
+	{mso-style-link:"Balloon Text Char";
+	margin:0in;
+	margin-bottom:.0001pt;
+	font-size:8.0pt;
+	font-family:"Tahoma","sans-serif";}
+span.BalloonTextChar
+	{mso-style-name:"Balloon Text Char";
+	mso-style-link:"Balloon Text";
+	font-family:"Tahoma","sans-serif";}
+.MsoChpDefault
+	{font-size:10.0pt;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:45.0pt 1.0in 31.5pt 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+@page WordSection2
+	{size:8.5in 11.0in;
+	margin:31.5pt 13.5pt .25in 27.0pt;}
+div.WordSection2
+	{page:WordSection2;}
+-->
+</style>
+
+</head>
+
+<body lang=EN-US>
+
+<div class=WordSection1>
+
+<h1 align=center style='text-align:center'><i>ContamFactorial</i> Program
+Documentation</h1>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>The Contam Factorial program generates a set of CONTAM
+project files having all of the possible combinations of user specified parameters.
+A base project file (PRJ) is modified with a set of flags to indicate which values
+of the PRJ are to change. A separate text file (<i>values file</i>) is created
+by the user to provide the set of values with which the flagged variables are
+to be replaced when the factorial program is run. Some changes in a project may
+need to occur simultaneously.  These changes are grouped into <i>change sets</i>. 
+Therefore, the user provides each set of changes with a <i>set name</i> so it
+can be identified when modifying the project file with a text editor. Each set
+can have multiple <i>change numbers</i> associated with them, and it is these
+numbered changes that will be replaced simultaneously when the factorial PRJ
+files are generated. The marker format is a dollar sign ‘$’ with the set name
+and change number in parentheses.  For example the following marker: $(A 1) specifies
+to use the A set of changes and use the first numbered change in that set. Each
+change set can take on a user defined number of <i>states</i>, and each numbered
+change set in a given named set must be provided with the same number of
+corresponding states.</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal><i>ContamFactorial.exe</i> is a Windows program that prompts
+the user to select the names of the values file and the flagged PRJ file. The
+number of project files generated is equal to the product of the number of states
+in each change set.  The resulting project files will have the name of the flagged
+project file plus an underscore ‘_’ and an integer (zero-indexed) indicating the
+number of the state of each change set.  For example <i>test_0_1.prj</i> means
+that the first set of changes is in its first state and the second set of
+changes is in its second state.</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>The program will also generate a batch file to run each
+project with ContamX.  The batch file and project files need to be in the same
+directory as ContamX in order to work properly. Depending on the version of
+ContamX, the bat file may require modification.</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<b><i><span style='font-size:14.0pt;font-family:"Arial","sans-serif"'><br
+clear=all style='page-break-before:always'>
+</span></i></b>
+
+<h2>The Values File Format</h2>
+
+<p class=MsoNormal>The following provides the format of the values file and an
+example file that accompanies this program. Like the CONTAM PRJ file, the
+values file utilizes the exclamation point character ‘!” to denote a comment.
+Everything that occurs on a line after the comment marker is ignored by the
+ContamFactorial program.</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>The first non-comment line of the file must contain the
+total number of sets (<span style='font-family:"Courier New"'>nSets</span>).</p>
+
+<p class=MsoNormal>This must be followed by the following information for each
+of the <span style='font-family:"Courier New"'>nSets</span>.</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>For <span style='font-family:"Courier New"'>nSets</span> a
+line of information containing:</p>
+
+<p class=MsoNormal>      <span style='font-family:"Courier New"'>nCh</span>              –
+the number of changes in the set</p>
+
+<p class=MsoNormal>      <span style='font-family:"Courier New"'>nStates</span>
+   – the number of states required for all changes in the set</p>
+
+<p class=MsoNormal>      <span style='font-family:"Courier New"'>name    </span>–
+the name of the change set</p>
+
+<p class=MsoNormal>      This line is followed by <span style='font-family:
+"Courier New"'>nCh</span> lines each having <span style='font-family:"Courier New"'>nStates</span>
+values.</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>The following is an example file (<i>flags.txt</i>) provided
+with the ContamFactorial program. It contains two sets: the first named “RES”
+and the second “VENT”.  RES contains 4 change numbers each having 3 states.
+VENT has 2 change numbers each having 6 states. RES controls the
+deposition/resuspension source/sink related information by changing or setting:
+(RES 1) the discrete values file name, (RES 2) the simulation start and (RES 3)
+stop date, and (RES 4) the occupancy day schedule to use.  The VENT set
+controls the ventilation rate to be either due to the stack effect as
+controlled by the ambient temperature (VENT 1) or due to a forced fan flow
+element controlled by (VENT 2).</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:"Courier New"'>!
+nSets</span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:"Courier New"'>  2</span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:"Courier New"'>!nCh
+nStates SetName</span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:"Courier New"'> 
+4    3      RES   ! Resuspension related parameters</span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:"Courier New"'>Demo-01.dvf
+Demo-02.dvf Demo-03.dvf ! $(RES 1) DVF file</span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:"Courier New"'>   Jan01      
+Jan02       Jan03    ! $(RES 2) Simulation start date</span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:"Courier New"'>   Jan01      
+Jan02       Jan03    ! $(RES 3) Simulation stop date</span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:"Courier New"'>    
+1           2           3      ! $(RES 4) Occupant day schedule</span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:"Courier New"'>!nCh
+nStates SetName</span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:"Courier New"'> 
+2     6      VENT   ! Ventilation related parameters</span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:"Courier New"'> 293.15
+293.15 293.15 273.15 293.15 303.15 ! $(VENT 1) Tambient</span></p>
+
+<p class=MsoNormal><span style='font-size:10.0pt;font-family:"Courier New"'>  
+0.25   0.50   1.00   0.0    0.0    0.0  ! $(VENT 2) Fan flow mult</span></p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal>This values file (<i>flags.txt</i>) along with the
+accompanying flagged PRJ file provided on the following pages (<i>Demo&#8209;Factorial&#8209;Flag.prj</i>)
+will generate 18 (3 x 6) PRJ files. The flagged fields of the PRJ file are
+highlighted in red.</p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+<p class=MsoNormal><i>Demo&#8209;Factorial&#8209;Flag_0_0.prj </i>… <i>Demo&#8209;Factorial&#8209;Flag_0_5.prj</i></p>
+
+<p class=MsoNormal><i>Demo&#8209;Factorial&#8209;Flag_1_0.prj </i>… <i>Demo&#8209;Factorial&#8209;Flag_1_5.prj</i></p>
+
+<p class=MsoNormal><i>Demo&#8209;Factorial&#8209;Flag_2_0.prj </i>… <i>Demo&#8209;Factorial&#8209;Flag_2_5.prj</i></p>
+
+<p class=MsoNormal>&nbsp;</p>
+
+</div>
+
+<span style='font-size:12.0pt;font-family:"Times New Roman","serif"'><br
+clear=all style='page-break-before:always'>
+</span>
+
+<div class=WordSection2>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>ContamW
+3.0  0</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>Demo
+Factorial</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>! rows
+cols ud uf    T   uT     N     wH  u  Ao    a</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>   
+58   66  0  0 293.150 2    0.00 10.00 0 0.600 0.280</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>!
+Ta       Pb      Ws    Wd    rh  day u..</span></p>
+
+<p class=MsoNormal><b><span style='font-size:8.0pt;font-family:"Courier New";
+color:red'>$(VENT 1)</span></b><span style='font-size:8.0pt;font-family:"Courier New"'>
+101325.0  0.000   0.0 0.000 1 2 0 0 1 ! steady simulation</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>293.150
+101325.0  1.000 270.0 0.000 1 2 0 0 1 ! wind pressure test</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>null
+! no weather file</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>null
+! no contaminant file</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>null
+! no continuous values file</span></p>
+
+<p class=MsoNormal><b><span style='font-size:8.0pt;font-family:"Courier New";
+color:red'>$(RES 1)</span></b><span style='font-size:8.0pt;font-family:"Courier New"'>
+! discrete values file</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>null
+! no WPC file</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>null
+! no EWC file</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>WPC
+description</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>! 
+Xref    Yref    Zref   angle u</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>  
+0.000   0.000   0.000   0.00 0</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>!
+epsP epsS  tShift  dStart dEnd wp mf</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'> 
+0.01 0.01 00:00:00   1/1   1/1  0  0</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>!
+latd  longtd   tznr  altd  Tgrnd u..</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'> 40.00 
+-90.00  -6.00     0 283.15 2 0</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>!sim_af
+afcalc afmaxi afrcnvg afacnvg afrelax uac Pbldg uPb</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>    
+1      1     30  1e-005  1e-006    0.75   0 50.00   0</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>!  
+slae rs aflmaxi aflcnvg aflinit Tadj</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>     
+0   1    100  1e-006      1    0</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>!sim_mf
+slae rs maxi   relcnvg   abscnvg relax gamma ucc</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>   
+2             30 1.00e-004 1.00e-015 1.250         0 ! (cyclic)</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>         
+0   1  100 1.00e-006 1.00e-015 1.100 1.000   0 ! (non-trace)</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>         
+0   1  100 1.00e-006 1.00e-015 1.100 1.000   0 ! (trace)</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>!sim_sts
+sim_1dz sim_1dd celldx sim_vjt udx</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>    
+0       1       0    0.100     0    0</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>!tsdens
+relax tsmaxi</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>    
+0   0.75    20</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>!date_st
+time_st  date_0 time_0   date_1 time_1    t_step   t_list   t_scrn</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'> Jan01
+00:00:00  <b><span style='color:red'>$(RES 2)</span></b> 00:00:00  <b><span
+style='color:red'>$(RES 3)</span></b> 24:00:00  00:01:00 00:01:00 01:00:00</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>!restart 
+date  time</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>     
+0  Jan01 00:00:00</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>!list
+doDlg pfsave zfsave zcsave</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>  
+0     1      1      1      1</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>!vol
+ach -bw cbw exp -bw age -bw</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'> 
+0   0   0   0   0   0   0   0 </span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>!...</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'> 0 0
+0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>2 !
+rvals:</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>1.2041
+9.8055 </span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>!valZ
+valD valC</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>  
+0    0    0</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>!ctype
+conv var zref imax dtcmo</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>   0
+0.010000    0    0 1000    1</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>-999</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>1 ! contaminants:</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>   1</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>1 !
+species:</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>! #
+s t   molwt    mdiam       edens       decay       Dm          CCdef       
+Cp    u...  name</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>  1
+1 0   0.0000 1.2000e-005 1.3000e+003 0.0000e+000 2.0000e-005 0.0000e+000
+1000.000 15 6 2 0 0 p12</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>&nbsp;</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>-999</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>1 !
+levels plus icon data:</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>! # 
+refHt   delHt  ni  u  name</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'> 
+1   0.000   3.000 32 0 0 &lt;1&gt;</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>!icn
+col row  #</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'> 
+14  13   7   0</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'> 
+15  29   7   0</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'> 131 
+14   8   1</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'> 
+23  29   8   1</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'> 185 
+14  12   1</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'> 170 
+15  12   1</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'> 178 
+16  12   1</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'> 185 
+17  12   2</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'> 170 
+18  12   2</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'> 173 
+20  12   2</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'> 
+29  29  12   2</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'> 179 
+20  13   2</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'> 172 
+14  14   6</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'> 178 
+16  14   6</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'> 185 
+17  14   3</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'> 170 
+18  14   3</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'> 178 
+19  14   3</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'> 185 
+20  14   4</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'> 170 
+21  14   4</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'> 178 
+22  14   4</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'> 185 
+23  14   5</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'> 170 
+24  14   5</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'> 178 
+26  14   5</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'> 133 
+27  14   1</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'> 183 
+14  15   6</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>  
+5  14  16   1</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'> 184 
+15  16   7</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'> 178 
+16  16   7</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'> 185 
+17  16   8</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'> 
+23  29  16   3</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'> 
+17  13  17   0</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'> 
+16  29  17   0</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>-999</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>3 !
+day-schedules:</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>! #
+npts shap utyp ucnv name</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'> 
+1    2    0    1    0 0pct</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>&nbsp;</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'> 00:00:00
+0</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'> 24:00:00
+0</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'> 
+2    2    0    1    0 15pct</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>&nbsp;</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'> 00:00:00
+0.15</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'> 24:00:00
+0.15</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'> 
+3    3    0    1    0 Burst</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>&nbsp;</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'> 00:00:00
+0</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'> 08:00:01
+1</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'> 24:00:00
+0</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>-999</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>3 !
+week-schedules:</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>! #
+utyp ucnv name</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'> 
+1    1    0 0pct</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>&nbsp;</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'> 1 1
+1 1 1 1 1 1 1 1 1 1</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'> 
+2    1    0 15pct</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>&nbsp;</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'> 2 2
+2 2 2 2 2 2 2 2 2 2</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'> 
+3    1    0 Burst</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>&nbsp;</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'> 3 3
+3 3 3 3 3 3 3 3 3 3</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>-999</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>0 !
+wind pressure profiles:</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>-999</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>0 !
+kinetic reactions:</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>-999</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>1 !
+filter elements:</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>1
+pf0 1 0.1 100 0 0 KB_MERV-6</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>Kowalski
+Bahnfleth MERV-6. Actual data between 0.01 and 10 microns.</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'> 16
+6</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'> 
+1e-009 0.5</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'> 
+1.5e-009 0.5</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'> 
+3.5e-009 0.4</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'> 
+1e-008 0.278521</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'> 
+3e-008 0.177</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'> 
+8e-008 0.084419</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'> 
+1.8e-007 0.046042</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'> 
+3.3e-007 0.047433</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'> 
+6.6e-007 0.096778</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'> 
+1.3e-006 0.223221</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'> 
+2.5e-006 0.390447</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'> 
+4.4e-006 0.479631</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'> 
+7e-006 0.498233</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'> 
+9.9e-006 0.499902</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'> 
+1e-005 0.499902</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'> 
+1.3e-005 0.499902</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>-999</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>0 ! filters:</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>-999</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>4 !
+source/sink elements:</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>1
+p12 brs Burst</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>&nbsp;</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'> 0.00188
+2</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>2
+p12 dvr DVR</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>DVR
+element from Hu et al.</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'> 0.005
+0.00875 1 1 0 0 0 0</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>3
+p12 dvs DVS</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>&nbsp;</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'> 0.005
+1 0 0</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>4
+p12 ccf Gres</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>&nbsp;</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'> 1.65e-009
+0 0 0</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>-999</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>2 !
+flow elements:</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>1 23
+plr_leak1 DoorInt</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>&nbsp;</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'> 1.31512e-006
+0.00600712 0.65 0.6 10 0.01 0 0 2 2 2 0</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>2 29
+fan_cmf Fan</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>&nbsp;</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'> 0.000334472
+4</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>-999</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>0 !
+duct elements:</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>-999</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>0 !
+control super elements:</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>-999</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>8 !
+control nodes:</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>! #
+typ seq f n  c1  c2 name</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>  1
+dvf   1 0 0   0   0 &lt;none&gt;</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>Discrete
+(DVF) value</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'> node1</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>  2
+log   4 0 1   1   0 &lt;none&gt;</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>Report
+input</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'> 0 1
+0 DVF n/a</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>  3
+log   5 0 1   6   0 &lt;none&gt;</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>Report
+input</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'> 0 1
+0 Occupants Persons</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>  4
+mul   6 0 2   3   2 &lt;none&gt;</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>Multiply
+two inputs</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>&nbsp;</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>  5
+log   7 0 1   4   0 &lt;none&gt;</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>Report
+input</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'> 0 1
+0 CRxPersons n/a</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>  6
+sns   2 0 0   0   0 &lt;none&gt;</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>zone
+Occupancy sensor</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'> 0 1
+0 0 1 1 5   0.000   0.000   0.000 0 none</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>  7
+sns   3 0 0   0   0 &lt;none&gt;</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>zone
+sensor</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'> 0 1
+0 0 1 1 0   0.000   0.000   0.000 0 p12</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>  8
+log   8 1 1   7   0 &lt;none&gt;</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>Report
+input</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'> 0
+1.02371e+012 0 Z1 #/m^3</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>-999</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>0 !
+simple AHS:</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>-999</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>1 !
+zones:</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>!
+Z#  f  s#  c#  k#  l#  relHt    Vol  T0  P0  name  clr u..  axs  1-D data:</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>  
+1  3   0   0   0   1   0.000   100 293.15 0 Z1 -1 0 2 0 0 0 0</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>-999</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>1 !
+initial zone concentrations:</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>!
+Z#        p12</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>   1
+4.341e-005</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>-999</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>3 !
+flow paths:</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>!
+P#    f  n#  m#  e#  f#  w#  a#  s#  c#  l#    X       Y      relHt  mult wPset
+wPmod wazm Fahs Xmax Xmin icn dir u..</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>  
+1    0  -1   1   1   0   0   0   0   0   1   0.000   0.000   3.000 1 0 0 90 0 0
+0  23  5 0 0 0 4 0</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>  
+2    0  -1   1   2   0   0   0   0   0   1   0.000   0.000   1.500 <b><span
+style='color:red'>$(VENT 2)</span></b> 0 0 90 0 0 0  29  5 0 0 0 0 0</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>  
+3    0  -1   1   1   0   0   0   0   0   1   0.000   0.000   0.000 1 0 0 90 0 0
+0  23  5 0 0 0 4 0</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>-999</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>0 !
+duct junctions:</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>-999</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>0 !
+initial junction concentrations:</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>-999</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>0 !
+duct segments:</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>-999</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>1 !
+source/sinks:</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>! # 
+z#  e#  s#  c#  mult   CC0  (X, Y, H)min  (X, Y, H)max u</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'> 
+1   1   2   0   5 33.33     0  0 0 0  0 0 0  0 0</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>-999</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>3 !
+occupancy schedules:</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>1 3
+0 occSched-01</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>&nbsp;</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'> 00:00:00
+1   0.000   0.000   0.000</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'> 13:00:00
+-1   0.000   0.000   0.000</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'> 24:00:00
+-1   0.000   0.000   0.000</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>2 3
+0 occSched-02</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>&nbsp;</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'> 00:00:00
+1   0.000   0.000   0.000</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'> 14:00:00
+-1   0.000   0.000   0.000</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'> 24:00:00
+-1   0.000   0.000   0.000</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>3 3
+0 occSched-03</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>&nbsp;</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'> 00:00:00
+1   0.000   0.000   0.000</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'> 15:00:00
+-1   0.000   0.000   0.000</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'> 24:00:00
+-1   0.000   0.000   0.000</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>-999</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>1 !
+exposures:</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>1 0
+0 1 0 0 70 4 0</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>&nbsp;</span></p>
+
+<p class=MsoNormal><b><span style='font-size:8.0pt;font-family:"Courier New";
+color:red'>$(RES 4) $(RES 4) $(RES 4) $(RES 4) $(RES 4) $(RES 4) $(RES 4) $(RES
+4) $(RES 4) $(RES 4) $(RES 4) $(RES 4)</span></b><span style='font-size:8.0pt;
+font-family:"Courier New"'> ! occ. schd</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>-999</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>0 !
+annotations:</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>-999</span></p>
+
+<p class=MsoNormal><span style='font-size:8.0pt;font-family:"Courier New"'>*
+end project file.</span></p>
+
+</div>
+
+</body>
+
+</html>
