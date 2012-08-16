@@ -125,7 +125,7 @@ Public Class clsFactorial
               Path.GetFileNameWithoutExtension(Me.cProjectFilename) + _
               "_" + stateNameString + ".prj"
             FileOpen(CurrentFileNumber, currentFileName, OpenMode.Output, OpenAccess.Write)
-            PrintLine(intBatchFilenumber, "ContamX3 " + currentFileName)
+            PrintLine(intBatchFilenumber, "ContamX3 " + Path.GetFileName(currentFileName))
             For intLinesLoop As Integer = 0 To Me.cProjectLines.Count - 1
                 CurrentPiece = Me.cProjectLines(intLinesLoop)
                 If intLinesLoop = 1 Then
