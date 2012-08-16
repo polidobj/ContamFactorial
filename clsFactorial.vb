@@ -106,7 +106,9 @@ Public Class clsFactorial
         frmProcessing.ProgressBar1.Maximum = permutations.Count - 1
         frmProcessing.Show()
         frmProcessing.Refresh()
-        FileOpen(intBatchFilenumber, System.IO.Path.GetFileNameWithoutExtension(Me.cProjectFilename) + ".bat", OpenMode.Output, OpenAccess.Write)
+        FileOpen(intBatchFilenumber, _
+          Path.GetDirectoryName(Me.cProjectFilename) & Path.DirectorySeparatorChar & _
+          Path.GetFileNameWithoutExtension(Me.cProjectFilename) + ".bat", OpenMode.Output, OpenAccess.Write)
         For intFileLoop As Integer = 0 To permutations.Count - 1
             frmProcessing.ProgressBar1.Value = intFileLoop
             frmProcessing.Refresh()
