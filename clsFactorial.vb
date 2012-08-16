@@ -1,5 +1,6 @@
 Imports System.Collections.Generic
 Imports ContamFactorial.clsPermutation
+Imports System.IO
 
 Public Class clsFactorial
 
@@ -118,7 +119,8 @@ Public Class clsFactorial
             Next
             stateNameString = stateNameString.Substring(0, stateNameString.Length - 1)
             currentFileName = _
-              System.IO.Path.GetFileNameWithoutExtension(Me.cProjectFilename) + _
+              Path.GetDirectoryName(Me.cProjectFilename) & Path.DirectorySeparatorChar & _
+              Path.GetFileNameWithoutExtension(Me.cProjectFilename) + _
               "_" + stateNameString + ".prj"
             FileOpen(CurrentFileNumber, currentFileName, OpenMode.Output, OpenAccess.Write)
             PrintLine(intBatchFilenumber, "ContamX3 " + currentFileName)
@@ -159,7 +161,7 @@ Public Class clsFactorial
         MessageBox.Show("Project files created successfully.  They can be run using the " & _
           System.IO.Path.GetFileNameWithoutExtension(Me.cProjectFilename) + ".bat file." & _
           vbNewLine & vbNewLine & "NOTE: To use the bat file ContamX3.exe must be in the same directory as the bat file and the project files." & _
-          vbNewLine & vbNewLine & "v2.0 - July 19th, 2011", "Success", MessageBoxButtons.OK, _
+          vbNewLine & vbNewLine & "v2.0.1 - August 16th, 2012", "Success", MessageBoxButtons.OK, _
           MessageBoxIcon.Information)
 
     End Function
