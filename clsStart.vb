@@ -19,7 +19,7 @@ Public Class clsStart
                 Exit Sub
             End If
             OFD.Title = "Select Project File"
-            OFD.Filter = "Contam Project Files (*.prj)|*.prj"
+            OFD.Filter = "Contam Project Files (*.prj)|*.prj|All files (*.*)|*.*"
             OFD.FilterIndex = 1
             If OFD.ShowDialog(frmProcessing) = DialogResult.OK Then
                 If Not clsFactorial.ReadProjectFile(OFD.FileName) Then

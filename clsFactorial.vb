@@ -5,19 +5,19 @@ Imports System.IO
 Public Class clsFactorial
 
   Dim cProjectLines As New List(Of String)()
-  Dim cProjectFilename As String
+  Dim InputFileName As String
   Public cMaxStates As Integer
 
   Public cSetsOfChanges As Values.SetsOfChanges
 
-  Public Function ReadProjectFile(ByVal ProjectFileName As String) As Boolean
+  Public Function ReadProjectFile(ByVal Input_Filename As String) As Boolean
 
   Dim intFilenumber As Integer = FreeFile()
 
-  cProjectFilename = ProjectFileName
+  InputFileName = Input_Filename
   While True
     Try
-    FileOpen(intFilenumber, cProjectFilename, OpenMode.Input, OpenAccess.Read)
+    FileOpen(intFilenumber, InputFileName, OpenMode.Input, OpenAccess.Read)
     Exit While
     Catch When Err.Number = 75
     If MessageBox.Show("Unable to open the project file. Close the file and click retry or click cancel to cancel the project read.", "Unable to open file", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error) = DialogResult.Cancel Then
@@ -107,8 +107,8 @@ Public Class clsFactorial
         frmProcessing.Show()
         frmProcessing.Refresh()
         FileOpen(intBatchFilenumber, _
-          Path.GetDirectoryName(Me.cProjectFilename) & Path.DirectorySeparatorChar & _
-          Path.GetFileNameWithoutExtension(Me.cProjectFilename) + ".bat", OpenMode.Output, OpenAccess.Write)
+          Path.GetDirectoryName(Me.InputFileName) & Path.DirectorySeparatorChar & _
+          Path.GetFileNameWithoutExtension(Me.InputFileName) + ".bat", OpenMode.Output, OpenAccess.Write)
         For intFileLoop As Integer = 0 To permutations.Count - 1
             frmProcessing.ProgressBar1.Value = intFileLoop
             frmProcessing.Refresh()
@@ -121,9 +121,9 @@ Public Class clsFactorial
             Next
             stateNameString = stateNameString.Substring(0, stateNameString.Length - 1)
             currentFileName = _
-              Path.GetDirectoryName(Me.cProjectFilename) & Path.DirectorySeparatorChar & _
-              Path.GetFileNameWithoutExtension(Me.cProjectFilename) + _
-              "_" + stateNameString + ".prj"
+              Path.GetDirectoryName(Me.InputFileName) & Path.DirectorySeparatorChar & _
+              Path.GetFileNameWithoutExtension(Me.InputFileName) + _
+              "_" + stateNameString + Path.GetExtension(Me.InputFileName)
             FileOpen(CurrentFileNumber, currentFileName, OpenMode.Output, OpenAccess.Write)
             PrintLine(intBatchFilenumber, "ContamX3 " + Path.GetFileName(currentFileName))
             For intLinesLoop As Integer = 0 To Me.cProjectLines.Count - 1
@@ -161,7 +161,7 @@ Public Class clsFactorial
         FileClose(intBatchFilenumber)
         frmProcessing.Hide()
         MessageBox.Show("Project files created successfully.  They can be run using the " & _
-          System.IO.Path.GetFileNameWithoutExtension(Me.cProjectFilename) + ".bat file." & _
+          System.IO.Path.GetFileNameWithoutExtension(Me.InputFileName) + ".bat file." & _
           vbNewLine & vbNewLine & "NOTE: To use the bat file ContamX3.exe must be in the same directory as the bat file and the project files." & _
           vbNewLine & vbNewLine & "v2.0.1 - August 16th, 2012", "Success", MessageBoxButtons.OK, _
           MessageBoxIcon.Information)
