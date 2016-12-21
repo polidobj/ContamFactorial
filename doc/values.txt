@@ -1,12 +1,14 @@
 ! nSets
   2
-!nCh nStates SetName
+! nCh nStates SetName
   4    3      RES   ! Resuspension related parameters
-Demo-01.dvf Demo-02.dvf Demo-03.dvf ! $(RES 1) DVF file
-   Jan01       Jan02       Jan03    ! $(RES 2) Simulation start date
-   Jan01       Jan02       Jan03    ! $(RES 3) Simulation stop date
-     1           2           3      ! $(RES 4) Occupant day schedule
-!nCh nStates SetName
-  2     6      VENT   ! Ventilation related parameters
- 293.15 293.15 293.15 273.15 293.15 303.15 ! $(VENT 1) Tambient
-   0.25   0.50   1.00   0.0    0.0    0.0  ! $(VENT 2) Fan flow mult
+ RESdvf1     RESdvf2     RESdvf3     ! State Names
+ Demo-01.dvf Demo-02.dvf Demo-03.dvf ! $(RES 1) DVF file
+ Jan01       Jan02       Jan03       ! $(RES 2) Simulation start date
+ Jan01       Jan02       Jan03       ! $(RES 3) Simulation stop date
+     1           2           3       ! $(RES 4) Occupant day schedule
+! nCh nStates SetName
+  2   6       VENT   ! Ventilation related parameters
+ VENTfan0.25 VENTfan0.50 VENTfan1.0 VENTstack0C VENTstack20C VENTstack30C ! State Names
+ 293.15      293.15      293.15     273.15      293.15       303.15       ! $(VENT 1) Tambient
+ 0.25        0.50        1.00       0.0         0.0          0.0          ! $(VENT 2) Fan flow mult

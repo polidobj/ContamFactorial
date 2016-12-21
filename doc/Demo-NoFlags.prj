@@ -1,21 +1,23 @@
-ContamW 3.0  0
+ContamW 3.2  0
 Demo Factorial
 ! rows cols ud uf    T   uT     N     wH  u  Ao    a
     58   66  0  0 293.150 2    0.00 10.00 0 0.600 0.280
+!  scale     us  orgRow  orgCol  invYaxis showGeom
+ 1.000e+000   1      56       1     0        0
 ! Ta       Pb      Ws    Wd    rh  day u..
-$(VENT 1) 101325.0  0.000   0.0 0.000 1 2 0 0 1 ! steady simulation
+293.150 101325.0  0.000   0.0 0.000 1 2 0 0 1 ! steady simulation
 293.150 101325.0  1.000 270.0 0.000 1 2 0 0 1 ! wind pressure test
 null ! no weather file
 null ! no contaminant file
 null ! no continuous values file
-$(RES 1) ! discrete values file
+Demo-01.dvf ! discrete values file
 null ! no WPC file
 null ! no EWC file
 WPC description
 !  Xref    Yref    Zref   angle u
    0.000   0.000   0.000   0.00 0
-! epsP epsS  tShift  dStart dEnd wp mf
-  0.01 0.01 00:00:00   1/1   1/1  0  0
+! epsP epsS  tShift  dStart dEnd wp mf wpctrig
+  0.01 0.01 00:00:00   1/1   1/1  0  0  0
 ! latd  longtd   tznr  altd  Tgrnd u..
  40.00  -90.00  -6.00     0 283.15 2 0
 !sim_af afcalc afmaxi afrcnvg afacnvg afrelax uac Pbldg uPb
@@ -26,32 +28,39 @@ WPC description
     2             30 1.00e-004 1.00e-015 1.250         0 ! (cyclic)
           0   1  100 1.00e-006 1.00e-015 1.100 1.000   0 ! (non-trace)
           0   1  100 1.00e-006 1.00e-015 1.100 1.000   0 ! (trace)
-!sim_sts sim_1dz sim_1dd celldx sim_vjt udx
-     0       1       0    0.100     0    0
-!tsdens relax tsmaxi
-     0   0.75    20
+          0   1  100 1.00e-006 1.00e-015 1.100         0 ! (cvode)
+!mf_solver sim_1dz sim_1dd   celldx  sim_vjt udx
+     0        1       0    1.00e-001    0     0
+!cvode    rcnvg     acnvg    dtmax
+   0    1.00e-006 1.00e-013   0.00
+!tsdens relax tsmaxi cnvgSS densZP stackD dodMdt
+   0    0.75    20     1      0      0      0
 !date_st time_st  date_0 time_0   date_1 time_1    t_step   t_list   t_scrn
- Jan01 00:00:00  $(RES 2) 00:00:00  $(RES 3) 24:00:00  00:01:00 00:01:00 01:00:00
+  Jan01 00:00:00  Jan01 00:00:00  Jan01 24:00:00  00:01:00 00:01:00 01:00:00
 !restart  date  time
-      0  Jan01 00:00:00
+    0    Jan01 00:00:00
 !list doDlg pfsave zfsave zcsave
    0     1      1      1      1
 !vol ach -bw cbw exp -bw age -bw
-  0   0   0   0   0   0   0   0 
-!...
- 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0
+  0   0   0   0   0   0   0   0
+!rzf rzm rz1 csm srf log
+  0   0   0   1   1   1
+!bcx dcx pfq zfq zcq
+  0   0   0   0   0
+! 0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15 <- extra[]
+  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
 2 ! rvals:
 1.2041 9.8055 
 !valZ valD valC
    0    0    0
-!ctype conv var zref imax dtcmo
-   0 0.010000    0    0 1000    1
+!cfd  cfdcnvg   var zref  maxi dtcmo
+  0  1.00e-002   0   0    1000   1
 -999
 1 ! contaminants:
    1
 1 ! species:
-! # s t   molwt    mdiam       edens       decay       Dm          CCdef        Cp    u...  name
-  1 1 0   0.0000 1.2000e-005 1.3000e+003 0.0000e+000 2.0000e-005 0.0000e+000 1000.000 15 6 2 0 0 p12
+! # s t   molwt    mdiam       edens       decay         Dm         CCdef        Cp          Kuv     u[5]      name
+  1 1 0   0.0000 1.2000e-005 1.3000e+003 0.0000e+000 2.0000e-005 0.0000e+000 1.0000e+003 0.0000e+000 15 6 2 0 0 p12
 
 -999
 1 ! levels plus icon data:
@@ -123,26 +132,7 @@ WPC description
 -999
 0 ! kinetic reactions:
 -999
-1 ! filter elements:
-1 pf0 1 0.1 100 0 0 KB_MERV-6
-Kowalski Bahnfleth MERV-6. Actual data between 0.01 and 10 microns.
- 16 6
-  1e-009 0.5
-  1.5e-009 0.5
-  3.5e-009 0.4
-  1e-008 0.278521
-  3e-008 0.177
-  8e-008 0.084419
-  1.8e-007 0.046042
-  3.3e-007 0.047433
-  6.6e-007 0.096778
-  1.3e-006 0.223221
-  2.5e-006 0.390447
-  4.4e-006 0.479631
-  7e-006 0.498233
-  9.9e-006 0.499902
-  1e-005 0.499902
-  1.3e-005 0.499902
+0 ! filter elements:
 -999
 0 ! filters:
 -999
@@ -202,18 +192,18 @@ Report input
 0 ! simple AHS:
 -999
 1 ! zones:
-! Z#  f  s#  c#  k#  l#  relHt    Vol  T0  P0  name  clr u..  axs  1-D data:
-   1  3   0   0   0   1   0.000   100 293.15 0 Z1 -1 0 2 0 0 0 0
+! Z#  f  s#  c#  k#  l#  relHt    Vol  T0  P0  name  clr u[4]  axs cdvf <cdvf name> cfd <cfd name> <1D data:>
+   1  3   0   0   0   1   0.000   100 293.15 0 Z1 -1 0 2 0 0 0 0 0
 -999
 1 ! initial zone concentrations:
 ! Z#        p12
    1 4.341e-005
 -999
 3 ! flow paths:
-! P#    f  n#  m#  e#  f#  w#  a#  s#  c#  l#    X       Y      relHt  mult wPset wPmod wazm Fahs Xmax Xmin icn dir u..
-   1    0  -1   1   1   0   0   0   0   0   1   0.000   0.000   3.000 1 0 0 90 0 0 0  23  5 0 0 0 4 0
-   2    0  -1   1   2   0   0   0   0   0   1   0.000   0.000   1.500 $(VENT 2) 0 0 90 0 0 0  29  5 0 0 0 0 0
-   3    0  -1   1   1   0   0   0   0   0   1   0.000   0.000   0.000 1 0 0 90 0 0 0  23  5 0 0 0 4 0
+! P#    f  n#  m#  e#  f#  w#  a#  s#  c#  l#    X       Y      relHt  mult wPset wPmod wazm Fahs Xmax Xmin icn dir u[4] cdvf <cdvf name> cfd <cfd data[4]>
+   1    0  -1   1   1   0   0   0   0   0   1   0.000   0.000   3.000 1 0 0 90 0 0 0  23  5 0 0 0 4 0 0
+   2    0  -1   1   2   0   0   0   0   0   1   0.000   0.000   1.500 1 0 0 90 0 0 0  29  5 0 0 0 0 0 0
+   3    0  -1   1   1   0   0   0   0   0   1   0.000   0.000   0.000 1 0 0 90 0 0 0  23  5 0 0 0 4 0 0
 -999
 0 ! duct junctions:
 -999
@@ -222,8 +212,8 @@ Report input
 0 ! duct segments:
 -999
 1 ! source/sinks:
-! #  z#  e#  s#  c#  mult   CC0  (X, Y, H)min  (X, Y, H)max u
-  1   1   2   0   5 33.33     0  0 0 0  0 0 0  0 0
+! #  z#  e#  s#  c#  mult   CC0  (X, Y, H)min  (X, Y, H)max u[1] cdvf <cdvf name> cfd <cfd name>
+  1   1   2   0   5 33.33     0  0 0 0  0 0 0  0 0 0
 -999
 3 ! occupancy schedules:
 1 3 0 occSched-01
@@ -243,9 +233,9 @@ Report input
  24:00:00 -1   0.000   0.000   0.000
 -999
 1 ! exposures:
-1 0 0 1 0 0 70 4 0
+1 0 0 1
 
- $(RES 4) $(RES 4) $(RES 4) $(RES 4) $(RES 4) $(RES 4) $(RES 4) $(RES 4) $(RES 4) $(RES 4) $(RES 4) $(RES 4) ! occ. schd
+ 1 1 1 1 1 1 1 1 1 1 1 1 ! occ. schd
 -999
 0 ! annotations:
 -999
