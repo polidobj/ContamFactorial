@@ -128,9 +128,6 @@ Public Class clsFactorial
             PrintLine(intBatchFilenumber, "ContamX3 " + Path.GetFileName(currentFileName))
             For intLinesLoop As Integer = 0 To Me.cProjectLines.Count - 1
                 CurrentPiece = Me.cProjectLines(intLinesLoop)
-                If intLinesLoop = 1 Then
-                    CurrentPiece = WriteDescription(CurrentPiece, stateNameString)
-                End If
                 DollarLocation = -1
                 While True
                     If CurrentPiece.Length <= 0 Then Exit While
@@ -165,16 +162,6 @@ Public Class clsFactorial
           vbNewLine & vbNewLine & "NOTE: To use the bat file ContamX3.exe must be in the same directory as the bat file and the project files." & _
           vbNewLine & vbNewLine & "v2.0.1 - August 16th, 2012", "Success", MessageBoxButtons.OK, _
           MessageBoxIcon.Information)
-
-    End Function
-
-    Private Function WriteDescription(ByVal desc As String, ByVal StateString As String) As String
-
-        If desc.Length < 72 - StateString.Length + 1 Then
-            Return desc & " " & StateString
-        Else
-            Return desc.Substring(0, 72 - StateString.Length) & " " & StateString
-        End If
 
     End Function
 
